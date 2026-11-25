@@ -10,6 +10,19 @@ type Holiday = { holiday_date: string; note: string };
 const DOW = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
 const ORDER = [1, 2, 3, 4, 5, 6, 0];
 const MON = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+// ตัวเลือกเวลาแบบ 24 ชม. แสดงเป็น "10.00 น." (ไม่ขึ้นกับภาษาของเบราว์เซอร์ที่อาจแสดง AM/PM)
+const TIME_OPTS = Array.from({ length: 96 }, (_, i) => `${String(Math.floor(i / 4)).padStart(2, '0')}:${String((i % 4) * 15).padStart(2, '0')}`);
+const thTime = (t: string) => `${t.replace(':', '.')} น.`;
+function TimeSelect({ value, disabled, onChange, label }: { value: string; disabled: boolean; onChange: (v: string) => void; label: string }) {
+  const v = value.slice(0, 5);
+  const opts = TIME_OPTS.includes(v) ? TIME_OPTS : [...TIME_OPTS, v].sort();
+  return (
+    <select value={v} disabled={disabled} onChange={(e) => onChange(e.target.value)} aria-label={label}>
+      {opts.map((t) => <option key={t} value={t}>{thTime(t)}</option>)}
+    </select>
+  );
+}
+
 const th = (d: string) => { const [y, m, dd] = d.split('-').map(Number); return `วัน${DOW[new Date(d + 'T00:00:00Z').getUTCDay()]}ที่ ${dd} ${MON[m - 1]} ${y + 543}`; };
 
 async function send(url: string, method: string, body?: unknown) {
@@ -102,8 +115,8 @@ export function SettingsForm(props: { settings: Settings; weekly: Weekly[]; serv
                     <tr key={wd} data-weekday={wd}>
                       <td>{DOW[wd]}</td>
                       <td><label className="check"><input type="checkbox" checked={w.is_open} onChange={(e) => setW(wd, { is_open: e.target.checked })} aria-label={`เปิดร้านวัน${DOW[wd]}`} /><span>{w.is_open ? 'เปิด' : 'หยุด'}</span></label></td>
-                      <td><input type="time" value={w.open_time} step={300} disabled={!w.is_open} onChange={(e) => setW(wd, { open_time: e.target.value })} aria-label={`เวลาเปิดวัน${DOW[wd]}`} /></td>
-                      <td><input type="time" value={w.close_time} step={300} disabled={!w.is_open} onChange={(e) => setW(wd, { close_time: e.target.value })} aria-label={`เวลาปิดวัน${DOW[wd]}`} /></td>
+                      <td><TimeSelect value={w.open_time} disabled={!w.is_open} onChange={(v) => setW(wd, { open_time: v })} label={`เวลาเปิดวัน${DOW[wd]}`} /></td>
+                      <td><TimeSelect value={w.close_time} disabled={!w.is_open} onChange={(v) => setW(wd, { close_time: v })} label={`เวลาปิดวัน${DOW[wd]}`} /></td>
                     </tr>
                   );
                 })}
