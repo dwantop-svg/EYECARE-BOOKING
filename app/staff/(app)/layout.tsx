@@ -1,7 +1,7 @@
 import { requireStaffPage } from '@/lib/auth';
 import { StaffNav } from '@/components/StaffNav';
 export const dynamic = 'force-dynamic';
-export const metadata = { title: 'คิวนัดหมาย · Eyecare Optic', robots: { index: false } };
+export const metadata = { title: 'คิวนัดหมาย · Eyecare Optic ลำปาง', robots: { index: false } };
 export default async function StaffLayout({ children }: { children: React.ReactNode }) {
   const staff = await requireStaffPage();
   return (

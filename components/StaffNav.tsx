@@ -16,7 +16,7 @@ export function StaffNav({ name }: { name: string }) {
   return (
     <header className="topnav">
       <div className="inner">
-        <div className="brand"><GlassesIcon size={24} /><span className="brand-name">Eyecare Optic</span></div>
+        <div className="brand"><GlassesIcon size={24} /><span className="brand-name">Eyecare Optic ลำปาง</span></div>
         <nav aria-label="เมนูพนักงาน">
           {ITEMS.map((i) => (
             <Link key={i.href} href={i.href} aria-current={active(i.href) ? 'page' : undefined}>{i.label}</Link>

@@ -19,7 +19,7 @@ export function LoginForm() {
   return (
     <main className="wrap" style={{ maxWidth: 400, paddingTop: 64 }}>
       <form className="card stack" onSubmit={submit}>
-        <div className="brand"><GlassesIcon /><div><div className="brand-name">Eyecare Optic</div><div className="muted small">ระบบพนักงาน</div></div></div>
+        <div className="brand"><GlassesIcon /><div><div className="brand-name">Eyecare Optic ลำปาง</div><div className="muted small">ระบบพนักงาน</div></div></div>
         <h1 style={{ fontSize: '1.3rem' }}>เข้าสู่ระบบ</h1>
         <label className="field">ชื่อผู้ใช้<input type="text" name="username" autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} required /></label>
         <label className="field">รหัสผ่าน<input type="password" name="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
