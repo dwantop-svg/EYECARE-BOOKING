@@ -4,6 +4,8 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'จองคิว · Eyecare Optic ลำปาง',
   description: 'จองคิววัดสายตา รับแว่น ปรับ-ซ่อมแว่น และปรึกษาเลนส์ ที่ Eyecare Optic ลำปาง',
+  icons: { icon: '/icons/book-192.png', apple: '/icons/book-apple.png' },
+  appleWebApp: { capable: true, title: 'จองคิว Eyecare', statusBarStyle: 'default' },
 };
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#0f6e7a' };
 
