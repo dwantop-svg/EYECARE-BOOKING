@@ -1,0 +1,31 @@
+{
+  "name": "eyecare-booking",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:import-legacy": "node scripts/import-legacy.mjs",
+    "staff:create": "node scripts/create-staff.mjs",
+    "test": "vitest run",
+    "test:e2e": "node tests/e2e.mjs"
+  },
+  "dependencies": {
+    "next": "15.5.29",
+    "pg": "8.13.1",
+    "qrcode": "1.5.4",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "@types/pg": "8.11.10",
+    "@types/qrcode": "1.5.5",
+    "@types/react": "19.1.10",
+    "@types/react-dom": "19.1.7",
+    "typescript": "5.7.2",
+    "vitest": "2.1.8"
+  }
+}
