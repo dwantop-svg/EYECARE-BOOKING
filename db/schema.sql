@@ -75,11 +75,13 @@ CREATE TABLE IF NOT EXISTS booking_services (
   active     boolean NOT NULL DEFAULT true
 );
 INSERT INTO booking_services (code, name_th, sort_order) VALUES
-  ('eye_exam',  'วัดสายตา',       1),
-  ('pickup',    'รับแว่น',        2),
-  ('repair',    'ปรับ-ซ่อมแว่น',  3),
-  ('lens_consult', 'ปรึกษาเลนส์', 4)
-ON CONFLICT DO NOTHING;
+  ('eye_exam',     'วัดสายตา',       1),
+  ('new_glasses',  'ตัดแว่นใหม่',     2),
+  ('lens_change',  'เปลี่ยนเลนส์',    3),
+  ('pickup',       'รับแว่น',        4),
+  ('repair',       'ปรับ-ซ่อมแว่น',  5),
+  ('lens_consult', 'ปรึกษาเลนส์',    6)
+ON CONFLICT (code) DO UPDATE SET sort_order = EXCLUDED.sort_order;
 
 CREATE TABLE IF NOT EXISTS staff_users (
   id            serial PRIMARY KEY,

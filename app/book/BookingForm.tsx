@@ -10,6 +10,8 @@ type Slot = { time: string; remaining: number; available: boolean; reason?: stri
 
 const SERVICE_HINT: Record<string, string> = {
   eye_exam: 'ตรวจวัดค่าสายตาอย่างละเอียด',
+  new_glasses: 'วัดสายตา เลือกกรอบ และสั่งตัดแว่นใหม่',
+  lens_change: 'เปลี่ยนเลนส์ใหม่ในกรอบแว่นเดิม',
   pickup: 'มารับแว่นที่สั่งตัดไว้',
   repair: 'ปรับทรง ขันน็อต เปลี่ยนแป้นจมูก',
   lens_consult: 'เลือกเลนส์ให้เหมาะกับการใช้งาน',
