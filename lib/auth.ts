@@ -109,3 +109,30 @@ export async function staffFromRequest(req: Request): Promise<Staff | null> {
   const jar = await cookies();
   return staffById(readSessionToken(jar.get(SESSION_COOKIE)?.value));
 }
+
+export function hashPassword(password: string): string {
+  const salt = crypto.randomBytes(16);
+  const hash = crypto.scryptSync(password, salt, 64, { N: 16384, r: 8, p: 1 });
+  return `scrypt$${salt.toString('base64')}$${hash.toString('base64')}`;
+}
+
+export const MIN_PASSWORD_LENGTH = 8;
+
+// เปลี่ยนรหัสผ่านของพนักงานที่ล็อกอินอยู่ ต้องยืนยันรหัสเดิมก่อนเสมอ
+export async function changePassword(
+  staffId: number,
+  current: string,
+  next: string,
+): Promise<{ ok: true } | { ok: false; message: string }> {
+  if (typeof current !== 'string' || typeof next !== 'string') return { ok: false, message: 'ข้อมูลไม่ถูกต้อง' };
+  if (next.length < MIN_PASSWORD_LENGTH) return { ok: false, message: `รหัสผ่านใหม่ต้องยาวอย่างน้อย ${MIN_PASSWORD_LENGTH} ตัวอักษร` };
+  if (next.length > 128) return { ok: false, message: 'รหัสผ่านใหม่ยาวเกินไป' };
+  if (next === current) return { ok: false, message: 'รหัสผ่านใหม่ต้องไม่ซ้ำกับรหัสเดิม' };
+  const { rows } = await pool().query<{ password_hash: string }>(
+    'SELECT password_hash FROM staff_users WHERE id = $1 AND active',
+    [staffId],
+  );
+  if (!rows[0] || !verifyPassword(current, rows[0].password_hash)) return { ok: false, message: 'รหัสผ่านปัจจุบันไม่ถูกต้อง' };
+  await pool().query('UPDATE staff_users SET password_hash = $1, failed_count = 0, locked_until = NULL WHERE id = $2', [hashPassword(next), staffId]);
+  return { ok: true };
+}

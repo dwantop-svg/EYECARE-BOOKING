@@ -23,7 +23,7 @@ export function StaffNav({ name }: { name: string }) {
           ))}
         </nav>
         <span className="spacer" />
-        <span className="muted small">{name}</span>
+        <Link href="/staff/account" className="muted small" title="บัญชีของฉัน / เปลี่ยนรหัสผ่าน" aria-current={path.startsWith('/staff/account') ? 'page' : undefined}>{name} · เปลี่ยนรหัสผ่าน</Link>
         <form action="/api/staff/logout" method="post"><button type="submit" className="btn-sm">ออกจากระบบ</button></form>
       </div>
     </header>
